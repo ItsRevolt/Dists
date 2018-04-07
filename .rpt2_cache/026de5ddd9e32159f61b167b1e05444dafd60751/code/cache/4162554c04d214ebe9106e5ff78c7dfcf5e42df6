@@ -1,1 +1,0 @@
-{"code":"export default {\r\n    name: 'echo',\r\n    description: 'Get message content and sends it back',\r\n    execute: function (message, args) {\r\n        message.channel.send(message.content);\r\n    },\r\n};\r\n","map":{"mappings":""}}

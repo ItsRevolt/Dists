@@ -1,0 +1,1 @@
+{"code":"export default {\r\n    name: 'ping',\r\n    description: 'Ping!',\r\n    execute: function (message, args) {\r\n        console.log('received');\r\n        message.channel.send('Pong.');\r\n    },\r\n};\r\n","map":{"mappings":""}}

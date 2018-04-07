@@ -1,0 +1,1 @@
+{"code":"var Discord = require('discord.js');\r\nvar consola = require('consola');\r\nvar client = new Discord.Client();\r\nexport function login(token) {\r\n    client.on('ready', function () {\r\n        consola.success(\"Logged in as \" + client.user.tag + \"!\");\r\n    });\r\n    client.login(token);\r\n}\r\n","map":{"mappings":""}}

@@ -4,9 +4,14 @@
   "description": "A self hosted, simple, fast, discord bot",
   "dependencies": {
     "consola": "^1.2.0",
+    "d3-queue": "^3.0.7",
     "discord.js": "^11.3.2",
+    "ffmpeg-binaries": "^3.2.2-3",
     "inquirer": "^5.2.0",
-    "lowdb": "^1.0.0"
+    "lowdb": "^1.0.0",
+    "node-opus": "^0.2.7",
+    "uniqid": "^4.1.1",
+    "ytdl-core": "^0.20.2"
   },
   "devDependencies": {
     "@types/es6-shim": "^0.31.36",
@@ -21,7 +26,7 @@
     "typescript": "^2.8.1"
   },
   "scripts": {
-    "run": "rollup -c && node ./build/dists.js",
+    "run": "rollup -c && node ./build/dists.js --watch",
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

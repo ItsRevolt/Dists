@@ -14,6 +14,8 @@ var title
 export default {
     name: 'play',
     description: 'Plays audio from several sources!',
+    args: true,
+    usage: '<url> or <search query>',
     execute(message, args, client?) {
         param = args[0]
         res = args.join().replace(',', ' ')
@@ -66,7 +68,8 @@ export default {
             if (!Array.isArray(queue) || !queue.length) {
                 if (voiceConnection !== null) {
                     voiceConnection.disconnect();
-                    return message.reply('```Done playing Song(s)```')
+                    message.client.user.setActivity('Nothing', { type: 'PLAYING' })
+                    return message.channel.send('```Done playing Song(s)```')
                 }
             }
             if (voiceConnection === null) {
@@ -93,6 +96,8 @@ export default {
                     if (queue.length > 0) {
                         queue.shift()
                         executeQueue()
+                    } else {
+                        message.client.user.setActivity('Nothing', { type: 'PLAYING' })
                     }
                 }, 1000)
             })

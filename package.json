@@ -4,13 +4,12 @@
   "description": "A self hosted, simple, fast, discord bot",
   "dependencies": {
     "consola": "^1.2.0",
-    "d3-queue": "^3.0.7",
     "discord.js": "^11.3.2",
     "ffmpeg-binaries": "^3.2.2-3",
     "inquirer": "^5.2.0",
     "lowdb": "^1.0.0",
     "node-opus": "^0.2.7",
-    "uniqid": "^4.1.1",
+    "youtube-node": "^1.3.2",
     "ytdl-core": "^0.20.2"
   },
   "devDependencies": {

@@ -7,6 +7,6 @@ index => login => send client and prefix to init via params(note to self: fix, i
 => if first run, then call cli, else call login
 
 How it should be:
-index, login merged => replace init with auto command loader, directory based(?)
+index and login merged => replace init with auto command loader, directory based(?)
 |
 | instead of shit being passed by params, have a helper js file with exports

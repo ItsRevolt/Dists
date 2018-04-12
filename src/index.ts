@@ -6,7 +6,7 @@ const adapter = new FileSync('db.json')
 const db = low(adapter)
 
 //Set defaults, Will not write if already populated
-db.defaults({ commandAliases: [], admingroup: '', moderatorgroup: '', permissions: [], firstrun: true, prefix: '' }).write()
+db.defaults({ commandAliases: [], admingroup: '', moderatorgroup: '', permissions: [], firstrun: true, prefix: '', spotify: { clientID: '', clientSecret: '' } }).write()
 
 var firstrun = db.get('firstrun').value()
 if (firstrun == true) {

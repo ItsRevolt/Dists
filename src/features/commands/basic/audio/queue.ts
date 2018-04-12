@@ -7,9 +7,9 @@ export default {
     description: 'Shows audio queue',
     execute(message, args, client?) {
         if (queue.length == 0) {
-            return message.reply('Nothing in queue bud')
+            return message.channel.send('Nothing in queue bud')
         } else {
-            var data = queue.reverse().map(item => ytdl.getInfo(item).then(info => { message.channel.send(`\n**[${queue.indexOf(item)}]** - ${info.title}\n`) }))
+            var data = queue.reverse().map(item => ytdl.getInfo(item).then(info => setTimeout(() => { { message.channel.send(`\n**[${queue.indexOf(item)}]** - ${info.title}\n`) } }, 300)))
         }
     }
 }

@@ -57,6 +57,18 @@ let questions: any[] = [
             }
             return 'Please enter a valid moderator group';
         }
+    },
+    {
+        type: 'input',
+        name: 'clientID',
+        message: "What is your spotify client id? (Blank for none)",
+        default: ''
+    },
+    {
+        type: 'input',
+        name: 'clientSecret',
+        message: "What is your spotify client secret? (Blank for none)",
+        default: ''
     }
 ];
 export function cli() {
@@ -67,6 +79,8 @@ export function cli() {
         db.set('prefix', answers.prefix).write()
         db.set('admingroup', answers.admingroup).write()
         db.set('moderatorgroup', answers.moderatorgroup).write()
+        db.set('spotify.clientID', answers.clientID).write()
+        db.set('spotify.clientSecret', answers.clientSecret).write()
         consola.success(`Your bot has been created with token: ${answers.token}`)
         consola.info('To start your bot, type "node dists.js"')
         consola.info(`To add the bot to your guild, follow this link (REPLACE CLIENT_ID_HERE WITH THE ONE FROM YOUR BOT):https://discordapp.com/api/oauth2/authorize?client_id=CLIENT_ID_HERE&permissions=8&scope=bot`)

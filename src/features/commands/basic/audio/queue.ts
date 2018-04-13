@@ -1,7 +1,7 @@
-const fs = require('fs');
-const ytdl = require('ytdl-core');
+const fs = require('fs')
+const ytdl = require('ytdl-core')
 import { queue } from './helpers'
-import { stringify } from 'querystring';
+import { stringify } from 'querystring'
 export default {
     name: 'queue',
     description: 'Shows audio queue',

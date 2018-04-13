@@ -2,11 +2,11 @@ var YouTube = require('youtube-node')
 var low = require('lowdb')
 var FileSync = require('lowdb/adapters/FileSync')
 var adapter = new FileSync('db.json')
-var SpotifyWebApi = require('spotify-web-api-node');
+var SpotifyWebApi = require('spotify-web-api-node')
 export var db = low(adapter)
 export var ytdl = require('ytdl-core')
-export var youTube = new YouTube();
-youTube.setKey('AIzaSyA1xXaVNquNgxrStmjdkSXX4vEiKTTGneY');
+export var youTube = new YouTube()
+youTube.setKey('AIzaSyA1xXaVNquNgxrStmjdkSXX4vEiKTTGneY')
 var clientID = db.get('spotify.clientID').value()
 var clientSecret = db.get('spotify.clientSecret').value()
 export var spotifyApi = new SpotifyWebApi({

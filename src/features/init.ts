@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 const consola = require('consola')
 
 // Here we define all of our commands and manually append them in the array for discord.js to load
@@ -28,26 +28,26 @@ export function init(client, prefix: string) {
         if (message.content === 'prefix') {
             message.channel.send(`Prefix is: '**${prefix}**'`)
         }
-        if (!message.content.startsWith(prefix) || message.author.bot) return;
+        if (!message.content.startsWith(prefix) || message.author.bot) return
         const args = message.content.slice(prefix.length).split(/ +/)
-        const command = args.shift().toLowerCase();
+        const command = args.shift().toLowerCase()
         // Check if command needs args-pulled from command file, replies accordingly
         if (command.args && !args.length) {
-            let reply = `You didn't provide any arguments, ${message.author}!`;
+            let reply = `You didn't provide any arguments, ${message.author}!`
             if (command.usage) {
-                reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+                reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``
             }
-            return message.channel.send(reply);
+            return message.channel.send(reply)
         }
-        if (!client.commands.has(command)) return;
+        if (!client.commands.has(command)) return
         //Execute commands
         try {
-            client.commands.get(command).execute(message, args, client);
+            client.commands.get(command).execute(message, args, client)
         }
         catch (error) {
             consola.error(error);
-            message.reply('there was an error trying to execute that command!');
+            message.reply('there was an error trying to execute that command!')
         }
     });
-    process.on('unhandledRejection', error => console.error(`Uncaught Promise Rejection:\n${error}`));
+    process.on('unhandledRejection', error => console.error(`Uncaught Promise Rejection:\n${error}`))
 }

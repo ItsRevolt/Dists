@@ -1,5 +1,5 @@
-const fs = require('fs');
-const ytdl = require('ytdl-core');
+const fs = require('fs')
+const ytdl = require('ytdl-core')
 import { queue, resetQueue } from './helpers'
 export default {
     name: 'stop',
@@ -9,8 +9,8 @@ export default {
         var voiceConnection = client.voiceConnections.find(val => val.channel.guild.id == message.guild.id)
         if (!voiceConnection) return
         const dispatcher = voiceConnection.player.dispatcher
-        if (voiceConnection.paused) dispatcher.resume();
-        dispatcher.end();
+        if (voiceConnection.paused) dispatcher.resume()
+        dispatcher.end()
         voiceConnection.disconnect()
         message.reply('**Stopped!** :ok_hand::skin-tone-5: ')
     }

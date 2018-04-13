@@ -3,8 +3,6 @@ import { queue, grantSpotifyCredentials, ytdl, youTube, db, spotifyApi } from '.
 grantSpotifyCredentials()
 import setActivity from '../../../helpers'
 // IF SOMEONE IS READING THIS PLEASE TIDY UP THE CODE BELOW K THNX
-var param
-var res
 var title
 export default {
     name: 'play',
@@ -12,8 +10,8 @@ export default {
     args: true,
     usage: '<youtube url> or <youtube search query> or <spotify> <userID> <playlistID>',
     execute(message, args, client?) {
-        param = args[0]
-        res = args.join().replace(',', ' ')
+        var param = args[0]
+        var res = args.join().replace(',', ' ')
         start()
         function start() {
             if (!message.guild) return;
@@ -29,7 +27,6 @@ export default {
                     ytdl.getInfo(param).then(info => { message.reply(`**[${queue.length}]**-${info.title}`) })
                 }
             } else if (param.toLowerCase() == 'spotify') {
-                console.log('spotify')
                 spotify()
             } else {
                 youtubeSearch(res)
@@ -71,7 +68,7 @@ export default {
             var userID = args[1]
             var playlistID = args[2]
             var limit = args[3]
-            if (!db.has('spotify.clientID').value() && !db.has('spotify.clientSecret').value()) {
+            if (!db.has('spotify.clientID').value() || !db.has('spotify.clientSecret').value()) {
                 return message.reply('It appears that the server owner has not configured Spotify. Please bug that person.')
             }
             //These are hardcoded to check whether or not the user id and playlist id are valid. Probably not a good way to check. -Please fix
@@ -92,7 +89,6 @@ export default {
                 limit = 25
             }
             // Get tracks from playlist. Only include track name and artist. Needed to get accurate results from youtube search
-            console.log('spotify 2')
             spotifyApi.getPlaylistTracks(userID, playlistID, { 'offset': 1, 'limit': limit, 'fields': 'items(track(name,artists))' })
                 .then(function (data) {
                     for (var item in data.body.items) {

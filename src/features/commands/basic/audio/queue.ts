@@ -1,6 +1,6 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-import { queue } from './play'
+import { queue } from './helpers'
 import { stringify } from 'querystring';
 export default {
     name: 'queue',

@@ -1,6 +1,6 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-import { queue, resetQueue } from './play'
+import { queue, resetQueue } from './helpers'
 export default {
     name: 'stop',
     description: 'Stops all audio playing, removes all in queue, and doesnt continue queue',

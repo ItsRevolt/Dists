@@ -29,7 +29,7 @@ export function init(client, prefix: string) {
             message.channel.send(`Prefix is: '**${prefix}**'`)
         }
         if (!message.content.startsWith(prefix) || message.author.bot) return;
-        const args = message.content.slice(prefix.length).split(/ +/);
+        const args = message.content.slice(prefix.length).split(/ +/)
         const command = args.shift().toLowerCase();
         // Check if command needs args-pulled from command file, replies accordingly
         if (command.args && !args.length) {

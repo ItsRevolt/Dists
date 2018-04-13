@@ -1,6 +1,6 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-import { queue } from './play'
+import { queue } from './helpers'
 export default {
     name: 'skip',
     description: 'Skips to next song in queue',

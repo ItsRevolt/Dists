@@ -33,7 +33,8 @@ export function init(client, prefix: string) {
         const command = args.shift().toLowerCase()
         // Check if command needs args-pulled from command file, replies accordingly
         if (command.args && !args.length) {
-            let reply = `You didn't provide any arguments, ${message.author}!`
+            let reply: string
+            reply = `You didn't provide any arguments, ${message.author}!`
             if (command.usage) {
                 reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``
             }
@@ -41,6 +42,7 @@ export function init(client, prefix: string) {
         }
         if (!client.commands.has(command)) return
         //Execute commands
+
         try {
             client.commands.get(command).execute(message, args, client)
         }

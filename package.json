@@ -3,30 +3,30 @@
   "version": "1.0.0",
   "description": "A self hosted, simple, fast, discord bot",
   "dependencies": {
-    "consola": "^1.2.0",
+    "consola": "^1.3.0",
     "discord.js": "^11.3.2",
-    "ffmpeg-binaries": "^3.2.2-3",
+    "ffmpeg-binaries": "^3.2.2",
     "inquirer": "^5.2.0",
+    "libsodium-wrappers": "^0.7.3",
     "lowdb": "^1.0.0",
     "node-opus": "^0.2.7",
-    "spotify-web-api-node": "^3.0.0",
+    "spotify-web-api-node": "^3.1.1",
     "youtube-node": "^1.3.2",
     "ytdl-core": "^0.20.2"
   },
   "devDependencies": {
-    "@types/es6-shim": "^0.31.36",
     "@types/es6-promise": "^3.3.0",
-    "@types/node": "^9.6.2",
+    "@types/es6-shim": "^0.31.36",
+    "@types/node": "^9.6.9",
     "rollup-plugin-force-binding": "^1.0.6",
     "rollup-plugin-includepaths": "^0.2.2",
     "rollup-plugin-typescript2": "^0.12.0",
     "rollup-plugin-uglify": "^3.0.0",
-    "typescript": "^2.8.1"
+    "typescript": "^2.8.3"
   },
   "scripts": {
     "run": "rollup -c && node ./build/dists.js",
-    "build": "rollup --watch -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup --watch -c"
   },
   "author": "Revolt",
   "license": "GNU GPLv3"

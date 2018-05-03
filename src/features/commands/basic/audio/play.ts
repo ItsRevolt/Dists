@@ -2,16 +2,17 @@ const consola = require('consola')
 import { queue, grantSpotifyCredentials, ytdl, youTube, db, spotifyApi } from './helpers'
 grantSpotifyCredentials()
 import setActivity from '../../../helpers'
-// IF SOMEONE IS READING THIS PLEASE TIDY UP THE CODE BELOW K THNX
-var title
+import delay from '../../../helpers'
+// IF SOMEONE IS READING THIS PLEASE TIDY UP THE CODE K THNX
+let title
 export default {
     name: 'play',
     description: 'Plays audio from several sources!',
     args: true,
     usage: '<youtube url> or <youtube search query> or <spotify> <userID> <playlistID>',
     execute(message, args, client?) {
-        var param = args[0]
-        var res = args.join().replace(',', ' ')
+        let param = args[0]
+        let res = args.join().replace(',', ' ')
         start()
         function start() {
             if (!message.guild) return;
@@ -34,6 +35,7 @@ export default {
         }
 
         async function executeQueue() {
+            let connection
             let voiceConnection = client.voiceConnections.find(val => val.channel.guild.id == message.guild.id);
             if (!Array.isArray(queue) || !queue.length) {
                 if (voiceConnection !== null) {
@@ -43,13 +45,13 @@ export default {
                 }
             }
             if (voiceConnection === null) {
-                var connection = await message.member.voiceChannel.join()
+                connection = await message.member.voiceChannel.join()
             } else {
-                var connection = await voiceConnection
+                connection = await voiceConnection
             }
-            var playThis = queue[0]
-            var stream = ytdl(playThis, { filter: 'audioonly' })
-            var dispatcher = connection.playStream(stream);
+            let playThis = queue[0]
+            let stream = ytdl(playThis, { filter: 'audioonly' })
+            let dispatcher = connection.playStream(stream);
             ytdl.getInfo(playThis, (err, info) => {
                 setActivity(message, info.title, 'LISTENING')
             })
@@ -65,9 +67,9 @@ export default {
             })
         }
         function spotify() {
-            var userID = args[1]
-            var playlistID = args[2]
-            var limit = args[3]
+            let userID = args[1]
+            let playlistID = args[2]
+            let limit = args[3]
             if (!db.has('spotify.clientID').value() || !db.has('spotify.clientSecret').value()) {
                 return message.reply('It appears that the server owner has not configured Spotify. Please bug that person.')
             }
@@ -86,20 +88,23 @@ export default {
                     limit = limit
                 }
             } else {
-                limit = 25
+                limit = 100
             }
             // Get tracks from playlist. Only include track name and artist. Needed to get accurate results from youtube search
             spotifyApi.getPlaylistTracks(userID, playlistID, { 'offset': 1, 'limit': limit, 'fields': 'items(track(name,artists))' })
                 .then(function (data) {
-                    for (var item in data.body.items) {
+                    for (let item in data.body.items) {
                         console.log(data.body.items[item].track.name);
                     }
-                    for (var item in data.body.items) {
-                        var name = data.body.items[item].track.name
-                        var artist = data.body.items[item].track.artists[0].name
+                    for (let item in data.body.items) {
+                        let name = data.body.items[item].track.name
+                        let artist = data.body.items[item].track.artists[0].name
                         youtubeSearch(`${name} - ${artist} audio`)
                     }
                 }, function (err) {
+                    //Natural expire time for spotify api. Retry to connect, and run again.
+                    //Cant test properly due to expire time of 1hr
+                    grantSpotifyCredentials().then(spotify())
                     return message.reply('Error: ' + err)
                 })
         }
@@ -109,7 +114,7 @@ export default {
                     message.reply(error);
                 }
                 else {
-                    var id: string = result.items[0].id.videoId
+                    let id: string = result.items[0].id.videoId
                     ytdl.getInfo(id, (err, info) => {
                         if (err) return message.reply(err)
                         queue.push(info.video_url)

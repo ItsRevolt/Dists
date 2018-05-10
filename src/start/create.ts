@@ -1,29 +1,23 @@
-const path = require('path')
-const consola = require('consola')
-
-// Here we define all of our commands and manually append them in the array for discord.js to load
-// Basic
-import ping from './commands/basic/ping'
-import echo from './commands/basic/echo'
+import { client, login, prefix, important, success, error } from '../helpers'
+import ping from '../commands/basic/ping'
+import echo from '../commands/basic/echo'
 // Audio
-import play from './commands/basic/audio/play'
-import queue from './commands/basic/audio/queue'
-import skip from './commands/basic/audio/skip'
-import stop from './commands/basic/audio/stop'
+import play from '../commands/basic/audio/play'
+import queue from '../commands/basic/audio/queue'
+import skip from '../commands/basic/audio/skip'
+import stop from '../commands/basic/audio/stop'
 // Fun
-import fuck from './commands/fun/fuck'
+import fuck from '../commands/fun/fuck'
 let Files = [ping, echo, play, skip, queue, stop, fuck]
-
-export function init(client, prefix: string) {
-    // Get list of commands from array of files, import them, and log
+export function create() {
     for (const file of Files) {
-        consola.success('Loaded: ' + file.name)
+        console.log(success('Loaded: ') + file.name)
         client.commands.set(file.name, file)
     }
 
     client.on('message', message => {
         //Log all messages
-        consola.info(`${message.author.username} Posted: '${message.content}' - ${message.createdTimestamp}`)
+        console.info(`${important(message.author.username)} Posted: '${success(message.content)}' - ${error(message.createdTimestamp)}`)
         //Add direct check that tells prefix
         if (message.content === 'prefix') {
             message.channel.send(`Prefix is: '**${prefix}**'`)
@@ -47,9 +41,9 @@ export function init(client, prefix: string) {
             client.commands.get(command).execute(message, args, client)
         }
         catch (error) {
-            consola.error(error);
-            message.reply('there was an error trying to execute that command!')
+            console.error(error(error))
+            message.reply('Beep. Boop. You done broked it.')
         }
     });
-    process.on('unhandledRejection', error => console.error(`Uncaught Promise Rejection:\n${error}`))
+    login()
 }

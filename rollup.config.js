@@ -18,6 +18,6 @@ export default {
     plugins: [
         typescript(),
         includePaths(includePathOptions),
-        uglify()
+        uglify(),
     ]
 }

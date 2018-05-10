@@ -1,4 +1,3 @@
-import { login } from './login';
 var inquirer = require('inquirer');
 const consola = require('consola')
 const low = require('lowdb')
@@ -7,6 +6,17 @@ const adapter = new FileSync('db.json')
 const db = low(adapter)
 
 let questions: any[] = [
+    {
+        type: 'input',
+        name: 'ownerID',
+        message: "What's your discord user id? (https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)",
+        validate: function (value: string) {
+            if (value !== null || value !== typeof ('undefined')) {
+                return true;
+            }
+            return 'Please enter a valid user id';
+        }
+    },
     {
         type: 'input',
         name: 'token',
@@ -74,6 +84,7 @@ let questions: any[] = [
 export function cli() {
     inquirer.prompt(questions).then(answers => {
         //Todo when done, group these together
+        db.set('ownerID', answers.ownerID)
         db.set('token', answers.token)
         db.set('firstrun', false)
         db.set('prefix', answers.prefix)

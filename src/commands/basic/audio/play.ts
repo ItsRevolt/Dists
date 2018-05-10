@@ -12,6 +12,7 @@ export default {
     execute(message, args, client?) {
         let param = args[0]
         let res = args.join().replace(',', ' ')
+        console.log('param: ' + param + ' res: ' + res)
         start()
         function start() {
             if (!message.guild) return;
@@ -35,7 +36,7 @@ export default {
 
         async function executeQueue() {
             let connection
-            let voiceConnection = client.voiceConnections.find(val => val.channel.guild.id == message.guild.id);
+            let voiceConnection = client.voiceConnections.find(val => val.channel.guild.id == message.guild.id)
             if (!Array.isArray(queue) || !queue.length) {
                 if (voiceConnection !== null) {
                     voiceConnection.disconnect();
@@ -52,6 +53,9 @@ export default {
             let stream = ytdl(playThis, { filter: 'audioonly' })
             let dispatcher = connection.playStream(stream);
             ytdl.getInfo(playThis, (err, info) => {
+                if (err) {
+                    console.log('Error trying to get info before setting activity.' + err)
+                }
                 setActivity(message, info.title, 'LISTENING')
             })
             dispatcher.on('end', () => {
@@ -87,7 +91,7 @@ export default {
                     limit = limit
                 }
             } else {
-                limit = 100
+                limit = 30
             }
             // Get tracks from playlist. Only include track name and artist. Needed to get accurate results from youtube search
             spotifyApi.getPlaylistTracks(userID, playlistID, { 'offset': 1, 'limit': limit, 'fields': 'items(track(name,artists))' })
@@ -101,21 +105,27 @@ export default {
                         youtubeSearch(`${name} - ${artist} audio`)
                     }
                 }, function (err) {
+                    console.log('Error getting spotify playlist' + err)
                     //Natural expire time for spotify api. Retry to connect, and run again.
                     //Cant test properly due to expire time of 1hr
                     grantSpotifyCredentials().then(spotify())
-                    return message.reply('Error: ' + err)
+                    return message.reply('Error getting spotify playlist')
                 })
         }
         function youtubeSearch(toSearch) {
             youTube.search(toSearch, 1, function (error, result) {
                 if (error) {
-                    message.reply(error);
+                    console.log('Error searching. -yt' + error)
+                    message.reply('Error Searching. -yt')
                 }
                 else {
-                    let id: string = result.items[0].id.videoId
+                    let id = result.items[0].id.videoId
                     ytdl.getInfo(id, (err, info) => {
-                        if (err) return message.reply(err)
+                        console.log(info.title)
+                        if (err) {
+                            console.log('Error getting info. -ytdl' + err)
+                            message.reply('Error getting info. -ytdl')
+                        }
                         queue.push(info.video_url)
                         title = info.title
                         if (queue.length === 1) {

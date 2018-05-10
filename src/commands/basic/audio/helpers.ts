@@ -7,8 +7,8 @@ export var db = low(adapter)
 export var ytdl = require('ytdl-core')
 export var youTube = new YouTube()
 youTube.setKey('AIzaSyA1xXaVNquNgxrStmjdkSXX4vEiKTTGneY')
-var clientID:string = db.get('spotify.clientID').value()
-var clientSecret:string = db.get('spotify.clientSecret').value()
+var clientID: string = db.get('spotify.clientID').value()
+var clientSecret: string = db.get('spotify.clientSecret').value()
 export var spotifyApi = new SpotifyWebApi({
     clientId: clientID,
     clientSecret: clientSecret
@@ -28,8 +28,8 @@ export function grantSpotifyCredentials() {
                 spotifyApi.setAccessToken(data.body['access_token'])
                 resolve()
             }, function (err) {
-                reject()
                 console.log('Something went wrong when retrieving an access token', err)
+                reject()
             })
     })
 }

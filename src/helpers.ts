@@ -29,6 +29,7 @@ export let login = () => {
 
 export var delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 export function setActivity(message: any, title: string, type: string) {
-    message.client.user.setPresence({ game: { name: title, type: type } })
-        .catch(console.error)
+    message.client.user.setActivity(title, { type: type })
+        .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+        .catch(console.error);
 }

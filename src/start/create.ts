@@ -27,7 +27,7 @@ export function create() {
         const command = args.shift().toLowerCase()
         // Check if command needs args-pulled from command file, replies accordingly
         if (command.args && !args.length) {
-            let reply: string
+            let reply
             reply = `You didn't provide any arguments, ${message.author}!`
             if (command.usage) {
                 reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``
@@ -35,13 +35,11 @@ export function create() {
             return message.channel.send(reply)
         }
         if (!client.commands.has(command)) return
-        //Execute commands
-
         try {
             client.commands.get(command).execute(message, args, client)
         }
         catch (error) {
-            console.error(error(error))
+            console.log(error(error))
             message.reply('Beep. Boop. You done broked it.')
         }
     });

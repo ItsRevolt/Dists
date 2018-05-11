@@ -1,7 +1,6 @@
-const consola = require('consola')
-import { queue, grantSpotifyCredentials, ytdl, youTube, db, spotifyApi } from './helpers'
+import { queue, grantSpotifyCredentials, ytdl, youTube, spotifyApi } from './helpers'
+import { setActivity, delay, db } from '../../../helpers'
 grantSpotifyCredentials()
-import { setActivity, delay } from '../../../helpers'
 // IF SOMEONE IS READING THIS PLEASE TIDY UP THE CODE K THNX
 let title
 export default {

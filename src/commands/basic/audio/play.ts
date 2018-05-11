@@ -8,7 +8,7 @@ export default {
     name: 'play',
     description: 'Plays audio from several sources!',
     args: true,
-    usage: '<youtube url> or <youtube search query> or <spotify> <userID> <playlistID>',
+    usage: '<yt url> or <yt search query> or <spotify> <userID> <playlistID> <limit>(optional)',
     execute(message, args, client?) {
         let param = args[0]
         let res = args.join().replace(',', ' ')
@@ -17,7 +17,6 @@ export default {
         function start() {
             if (!message.guild) return;
             if (!message.member.voiceChannel) return message.reply('```You are not in a channel! :thermometer_face:```')
-            if (!param) return message.reply('```Make sure to enter a search term!```')
             // Hacks way to check fo youtube url. Check for shortened youtube and full url. ¯\_(ツ)_/¯
             if (param.indexOf('youtu.be') > -1 || param.indexOf('youtube.com') > -1) {
                 queue.push(param)
@@ -69,7 +68,7 @@ export default {
                 }, 1000)
             })
         }
-        function spotify() {
+        async function spotify() {
             let userID = args[1]
             let playlistID = args[2]
             let limit = args[3]
@@ -83,34 +82,38 @@ export default {
             if (playlistID.length !== 22) {
                 return message.reply('Invalid playlist ID!')
             }
-            if (limit > 100) return message.reply('Limit cannot be greater than 100')
-            if (limit) {
-                if (limit == 'all') {
+            switch (true) {
+                case (limit > 100):
+                    message.reply('Limit cannot be greater than 100')
+                    break
+                case (limit == 'all'):
                     limit = 100
-                } else {
+                    break
+                case (limit):
                     limit = limit
-                }
-            } else {
-                limit = 30
+                    break
+                default:
+                    limit = 30
             }
             // Get tracks from playlist. Only include track name and artist. Needed to get accurate results from youtube search
-            spotifyApi.getPlaylistTracks(userID, playlistID, { 'offset': 1, 'limit': limit, 'fields': 'items(track(name,artists))' })
-                .then(function (data) {
-                    for (let item in data.body.items) {
-                        console.log(data.body.items[item].track.name);
-                    }
-                    for (let item in data.body.items) {
-                        let name = data.body.items[item].track.name
-                        let artist = data.body.items[item].track.artists[0].name
-                        youtubeSearch(`${name} - ${artist} audio`)
-                    }
-                }, function (err) {
-                    console.log('Error getting spotify playlist' + err)
-                    //Natural expire time for spotify api. Retry to connect, and run again.
-                    //Cant test properly due to expire time of 1hr
-                    grantSpotifyCredentials().then(spotify())
-                    return message.reply('Error getting spotify playlist')
-                })
+            let data = await spotifyApi.getPlaylistTracks(userID, playlistID, { 'offset': 1, 'limit': limit, 'fields': 'items(track(name,artists))' })
+            try {
+                for (let item in data.body.items) {
+                    console.log(data.body.items[item].track.name);
+                }
+                for (let item in data.body.items) {
+                    let name = data.body.items[item].track.name
+                    let artist = data.body.items[item].track.artists[0].name
+                    youtubeSearch(`${name} - ${artist} audio`)
+                }
+            } catch (e) {
+                console.log('Error getting spotify playlist' + e)
+                //Natural expire time for spotify api. Retry to connect, and run again.
+                //Cant test properly due to expire time of 1hr
+                await grantSpotifyCredentials()
+                await spotify()
+                return message.reply('Error getting spotify playlist')
+            }
         }
         function youtubeSearch(toSearch) {
             youTube.search(toSearch, 1, function (error, result) {

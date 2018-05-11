@@ -19,28 +19,36 @@ export function create() {
         //Log all messages
         console.info(`${important(message.author.username)} Posted: '${success(message.content)}' - ${error(message.createdTimestamp)}`)
         //Add direct check that tells prefix
-        if (message.content === 'prefix') {
-            message.channel.send(`Prefix is: '**${prefix}**'`)
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+        const args = message.content.slice(prefix.length).split(/ +/);
+        const commandName = args.shift().toLowerCase();
+
+        const command = client.commands.get(commandName)
+            || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+        if (!command) return;
+
+        if (command.guildOnly && message.channel.type !== 'text') {
+            return message.reply('I can\'t execute that command inside DMs!');
         }
-        if (!message.content.startsWith(prefix) || message.author.bot) return
-        const args = message.content.slice(prefix.length).split(/ +/)
-        const command = args.shift().toLowerCase()
-        // Check if command needs args-pulled from command file, replies accordingly
+
         if (command.args && !args.length) {
-            let reply
-            reply = `You didn't provide any arguments, ${message.author}!`
+            let reply = `You didn't provide any arguments, ${message.author}!`;
+
             if (command.usage) {
-                reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``
+                reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
             }
-            return message.channel.send(reply)
+
+            return message.channel.send(reply);
         }
-        if (!client.commands.has(command)) return
+
         try {
-            client.commands.get(command).execute(message, args, client)
+            command.execute(message, args, client);
         }
         catch (error) {
-            console.log(error(error))
-            message.reply('Beep. Boop. You done broked it.')
+            console.error(error);
+            message.reply('there was an error trying to execute that command!');
         }
     });
     login()

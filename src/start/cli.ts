@@ -1,9 +1,6 @@
 var inquirer = require('inquirer');
 const consola = require('consola')
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
-const adapter = new FileSync('db.json')
-const db = low(adapter)
+import { db } from '../helpers'
 
 let questions: any[] = [
     {
@@ -71,13 +68,19 @@ let questions: any[] = [
     {
         type: 'input',
         name: 'clientID',
-        message: "What is your spotify client id? (Blank for none)",
+        message: "What is your spotify client id? | Optional",
         default: ''
     },
     {
         type: 'input',
         name: 'clientSecret',
-        message: "What is your spotify client secret? (Blank for none)",
+        message: "What is your spotify client secret? | Optional",
+        default: ''
+    },
+    {
+        type: 'input',
+        name: 'youtubeKey',
+        message: "What is your youtube api key? (Used to search. Lining youtube urls still works | Optional)",
         default: ''
     }
 ];
@@ -93,6 +96,7 @@ export function cli() {
         db.set('spotify.clientID', answers.clientID)
         db.set('spotify.clientSecret', answers.clientSecret)
         db.set('spotify.clientSecret', answers.clientSecret)
+        db.set('youtube.key', answers.youtubeKey)
             .write()
         consola.success(`Your bot has been created with token: ${answers.token}`)
         consola.info('To start your bot, type "node dists.js"')

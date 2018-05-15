@@ -3,16 +3,14 @@ import { db } from '../../../helpers'
 var SpotifyWebApi = require('spotify-web-api-node')
 export var ytdl = require('ytdl-core')
 export var youTube = new YouTube()
-youTube.setKey('AIzaSyA1xXaVNquNgxrStmjdkSXX4vEiKTTGneY')
-var clientID: string = db.get('spotify.clientID').value()
-var clientSecret: string = db.get('spotify.clientSecret').value()
+youTube.setKey(db.get('youtube.key').value())
 export var spotifyApi = new SpotifyWebApi({
-    clientId: clientID,
-    clientSecret: clientSecret
+    clientId: db.get('spotify.clientID').value(),
+    clientSecret: db.get('spotify.clientSecret').value()
 });
 export var queue = []
-export function resetQueue() {
-    return queue = []
+export let resetQueue = () => {
+    queue = []
 }
 export async function grantSpotifyCredentials() {
     try {

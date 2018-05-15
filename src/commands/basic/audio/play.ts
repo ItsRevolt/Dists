@@ -1,17 +1,16 @@
 import { queue, grantSpotifyCredentials, ytdl, youTube, spotifyApi } from './helpers'
 import { setActivity, delay, db } from '../../../helpers'
 grantSpotifyCredentials()
-// IF SOMEONE IS READING THIS PLEASE TIDY UP THE CODE K THNX
-let title
+// IF SOMEONE IS READING THIS PLEASE TIDY UP THE CODE K THNX. Instead of calling .getInfo() all the time, do it once and store it.
 export default {
     name: 'play',
     description: 'Plays audio from several sources!',
     args: true,
+    aliases: ['song'],
     usage: '<yt url> or <yt search query> or <spotify> <userID> <playlistID> <limit>(optional)',
     execute(message, args, client?) {
         let param = args[0]
         let res = args.join().replace(',', ' ')
-        console.log('param: ' + param + ' res: ' + res)
         start()
         function start() {
             if (!message.guild) return;
@@ -64,7 +63,7 @@ export default {
                     } else {
                         setActivity(message, 'Nothing', 'LISTENING')
                     }
-                }, 1000)
+                }, 500)
             })
         }
         async function spotify() {
@@ -75,16 +74,15 @@ export default {
                 return message.reply('It appears that the server owner has not configured Spotify. Please bug that person.')
             }
             //These are hardcoded to check whether or not the user id and playlist id are valid. Probably not a good way to check. -Please fix
-            if (userID.length !== 25) {
+            if (userID.length < 1) {
                 return message.reply('Invalid user ID!')
             }
-            if (playlistID.length !== 22) {
+            if (playlistID.length < 1) {
                 return message.reply('Invalid playlist ID!')
             }
             switch (true) {
                 case (limit > 100):
-                    message.reply('Limit cannot be greater than 100')
-                    break
+                    return message.reply('Limit cannot be greater than 100')
                 case (limit == 'all'):
                     limit = 100
                     break
@@ -95,11 +93,8 @@ export default {
                     limit = 30
             }
             // Get tracks from playlist. Only include track name and artist. Needed to get accurate results from youtube search
-            let data = await spotifyApi.getPlaylistTracks(userID, playlistID, { 'offset': 1, 'limit': limit, 'fields': 'items(track(name,artists))' })
             try {
-                for (let item in data.body.items) {
-                    console.log(data.body.items[item].track.name);
-                }
+                let data = await spotifyApi.getPlaylistTracks(userID, playlistID, { 'offset': 1, 'limit': limit, 'fields': 'items(track(name,artists))' })
                 for (let item in data.body.items) {
                     let name = data.body.items[item].track.name
                     let artist = data.body.items[item].track.artists[0].name
@@ -110,11 +105,14 @@ export default {
                 //Natural expire time for spotify api. Retry to connect, and run again.
                 //Cant test properly due to expire time of 1hr
                 await grantSpotifyCredentials()
+                await message.reply('Error getting spotify playlist. Trying again.')
                 await spotify()
-                return message.reply('Error getting spotify playlist')
             }
         }
         function youtubeSearch(toSearch) {
+
+            //Todo: replace youtube-node with https://github.com/MaxGfeller/youtube-search to remove api key dependency. Also add this to website with why and how to fix for big servers eventually
+            if (!db.has('youtube.key').value()) return message.reply('Error performing action. Make sure you have a youtube api key set.')
             youTube.search(toSearch, 1, function (error, result) {
                 if (error) {
                     console.log('Error searching. -yt' + error)
@@ -123,13 +121,11 @@ export default {
                 else {
                     let id = result.items[0].id.videoId
                     ytdl.getInfo(id, (err, info) => {
-                        console.log(info.title)
                         if (err) {
                             console.log('Error getting info. -ytdl' + err)
                             message.reply('Error getting info. -ytdl')
                         }
                         queue.push(info.video_url)
-                        title = info.title
                         if (queue.length === 1) {
                             executeQueue();
                         }

@@ -10,7 +10,7 @@
     "ffmpeg-binaries": "3.2.2",
     "inquirer": "5.2.0",
     "lowdb": "1.0.0",
-    "node-opus": "0.2.9",
+    "node-opus": "0.3.0",
     "rollup-plugin-copy": "0.2.3",
     "spotify-web-api-node": "3.1.1",
     "sqlite": "2.9.1",

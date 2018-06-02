@@ -8,7 +8,7 @@
     "discord.js": "11.3.2",
     "discord.js-commando": "0.10.0",
     "ffmpeg-binaries": "3.2.2",
-    "inquirer": "5.2.0",
+    "inquirer": "6.0.0",
     "lowdb": "1.0.0",
     "node-opus": "0.2.9",
     "rollup-plugin-copy": "0.2.3",

@@ -13,11 +13,11 @@
     "node-opus": "latest",
     "rollup-plugin-copy": "latest",
     "spotify-web-api-node": "latest",
-    "terser": "^3.7.6",
+    "terser": "3.7.6",
     "youtube-node": "latest",
     "ytdl-core": "latest",
-    "ytpl": "^0.1.12",
-    "ytsr": "^0.1.8",
+    "ytpl": "0.1.12",
+    "ytsr": "0.1.8",
     "zlib-sync": "latest"
   },
   "devDependencies": {

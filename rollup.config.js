@@ -1,6 +1,6 @@
 import typescript from 'rollup-plugin-typescript2';
 import includePaths from 'rollup-plugin-includepaths';
-import uglify from 'rollup-plugin-uglify';
+import { terser } from "rollup-plugin-terser";
 
 let includePathOptions = {
     include: {},
@@ -13,11 +13,11 @@ export default {
     output: [{
         name: 'Dists',
         file: 'build/dists.js',
-        format: 'cjs'
+        format: 'es'
     }],
     plugins: [
         typescript(),
         includePaths(includePathOptions),
-        uglify(),
+        terser(),
     ]
 }

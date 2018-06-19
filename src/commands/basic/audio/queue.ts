@@ -23,7 +23,7 @@ export default {
                     let response = await ytdl.getInfo(queue[i])
                     tempQueue.push('\n**[' + i + ']**' + ' - ' + response.title)
                     if (tempQueue.length == 10) {
-                        var toSend = tempQueue.join("")
+                        var toSend = tempQueue.join().replace(',', ' ')
                         if (queue.length < 30) {
                             message.channel.send(toSend)
                         } else {
@@ -33,7 +33,6 @@ export default {
                     }
                 }
                 await deletthis.delete()
-                await console.log(tempQueue)
             }
         }
     }

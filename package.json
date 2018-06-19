@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A self hosted, simple, fast, discord bot",
   "dependencies": {
-<<<<<<< HEAD
     "chalk": "latest",
     "consola": "latest",
     "discord.js": "latest",
@@ -22,29 +21,6 @@
     "zlib-sync": "latest"
   },
   "devDependencies": {
-    "@types/es6-promise": "latest",
-    "@types/es6-shim": "latest",
-    "@types/node": "^10.3.4",
-    "rollup-plugin-includepaths": "latest",
-    "rollup-plugin-terser": "^1.0.1",
-    "rollup-plugin-typescript2": "latest",
-    "typescript": "latest"
-=======
-    "chalk": "2.4.1",
-    "consola": "1.3.0",
-    "discord.js": "11.3.2",
-    "discord.js-commando": "0.10.0",
-    "ffmpeg-binaries": "3.2.2",
-    "inquirer": "5.2.0",
-    "lowdb": "1.0.0",
-    "node-opus": "0.2.9",
-    "rollup-plugin-copy": "0.2.3",
-    "spotify-web-api-node": "3.1.1",
-    "sqlite": "2.9.1",
-    "youtube-node": "1.3.2",
-    "ytdl-core": "0.20.4"
-  },
-  "devDependencies": {
     "@types/es6-promise": "3.3.0",
     "@types/es6-shim": "0.31.37",
     "@types/node": "9.6.16",
@@ -53,7 +29,6 @@
     "rollup-plugin-typescript2": "0.12.0",
     "rollup-plugin-uglify": "3.0.0",
     "typescript": "2.8.3"
->>>>>>> 99ac5145d2462d5a89d1ac1315c91b05b368964d
   },
   "scripts": {
     "run": "rollup -c && node ./build/dists.js",

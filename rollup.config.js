@@ -13,7 +13,7 @@ export default {
     output: [{
         name: 'Dists',
         file: 'build/dists.js',
-        format: 'es'
+        format: 'cjs'
     }],
     plugins: [
         typescript(),

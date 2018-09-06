@@ -11,7 +11,7 @@ export default {
         } else {
             //  Nice meme
             var deletthis
-            if (queue.length < 30) {
+            if (queue.length <= 30) {
                 deletthis = await message.reply('Getting queue. This may take a while :cow:')
             } else {
                 deletthis = await message.reply('Queue is big. Sending in DM. :cow:')

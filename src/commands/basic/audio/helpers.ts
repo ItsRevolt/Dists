@@ -1,9 +1,6 @@
-var YouTube = require('youtube-node')
 import { db } from '../../../helpers'
 var SpotifyWebApi = require('spotify-web-api-node')
 export var ytdl = require('ytdl-core')
-export var youTube = new YouTube()
-youTube.setKey(db.get('youtube.key').value())
 export var spotifyApi = new SpotifyWebApi({
     clientId: db.get('spotify.clientID').value(),
     clientSecret: db.get('spotify.clientSecret').value()

@@ -2,34 +2,6 @@
   "name": "dists",
   "version": "1.0.0",
   "description": "A self hosted, simple, fast, discord bot",
-  "dependencies": {
-    "chalk": "latest",
-    "consola": "latest",
-    "discord.js": "latest",
-    "ffmpeg-binaries": "latest",
-    "inquirer": "latest",
-    "libsodium-wrappers": "latest",
-    "lowdb": "latest",
-    "node-opus": "latest",
-    "rollup-plugin-copy": "latest",
-    "spotify-web-api-node": "latest",
-    "terser": "^3.7.6",
-    "youtube-node": "latest",
-    "ytdl-core": "latest",
-    "ytpl": "^0.1.12",
-    "ytsr": "^0.1.8",
-    "zlib-sync": "latest"
-  },
-  "devDependencies": {
-    "@types/es6-promise": "3.3.0",
-    "@types/es6-shim": "0.31.37",
-    "@types/node": "9.6.16",
-    "rollup-plugin-force-binding": "1.0.6",
-    "rollup-plugin-includepaths": "0.2.2",
-    "rollup-plugin-typescript2": "0.12.0",
-    "rollup-plugin-uglify": "3.0.0",
-    "typescript": "2.8.3"
-  },
   "scripts": {
     "run": "rollup -c && node ./build/dists.js",
     "build": "rollup --watch -c"
@@ -38,5 +10,22 @@
     "assets": "node_modules/**/*"
   },
   "author": "Revolt",
-  "license": "GNU GPLv3"
+  "license": "GNU GPLv3",
+  "dependencies": {
+    "@types/node": "^10.7.1",
+    "consola": "^1.4.3",
+    "discord.js": "^11.4.2",
+    "ffmpeg-binaries": "^4.0.0",
+    "inquirer": "^6.1.0",
+    "lowdb": "^1.0.0",
+    "node-opus": "^0.3.0",
+    "rollup-plugin-includepaths": "^0.2.3",
+    "rollup-plugin-terser": "^1.0.1",
+    "rollup-plugin-typescript2": "^0.16.1",
+    "spotify-web-api-node": "^3.1.1",
+    "typescript": "^3.0.1",
+    "ytdl-core": "^0.24.0",
+    "ytpl": "^0.1.12",
+    "ytsr": "^0.1.8"
+  }
 }
